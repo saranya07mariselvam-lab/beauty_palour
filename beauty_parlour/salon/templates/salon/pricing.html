@@ -1,0 +1,52 @@
+{% extends "salon/base.html" %}
+{% block title %}Pricing - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+  <h1>Pricing</h1>
+  <p>Transparent pricing for all our services.</p>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <h3 class="pricing-group-title">Services for Women</h3>
+    <table class="pricing-table">
+      <thead><tr><th>Service</th><th>Category</th><th>Duration</th><th>Price</th></tr></thead>
+      <tbody>
+        {% for s in women_services %}
+        <tr>
+          <td><a href="{% url 'salon:service_detail' s.pk %}">{{ s.name }}</a></td>
+          <td>{{ s.get_category_display }}</td>
+          <td>{{ s.duration_minutes }} min</td>
+          <td>₹{{ s.price }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center; color:#999;">No services added yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3 class="pricing-group-title">Services for Men</h3>
+    <table class="pricing-table">
+      <thead><tr><th>Service</th><th>Category</th><th>Duration</th><th>Price</th></tr></thead>
+      <tbody>
+        {% for s in men_services %}
+        <tr>
+          <td><a href="{% url 'salon:service_detail' s.pk %}">{{ s.name }}</a></td>
+          <td>{{ s.get_category_display }}</td>
+          <td>{{ s.duration_minutes }} min</td>
+          <td>₹{{ s.price }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center; color:#999;">No services added yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div style="text-align:center; margin-top:40px;">
+      <a href="{% url 'salon:contact' %}" class="btn">Book Now</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

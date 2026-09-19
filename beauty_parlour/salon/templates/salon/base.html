@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}{{ salon.salon_name|default:"Shar Beauty" }}{% endblock %}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'salon/css/style.css' %}">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container navbar">
+    <a href="{% url 'salon:home' %}" class="logo">{{ salon.salon_name|default:"Shar Beauty" }}</a>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')">&#9776;</button>
+    <ul class="nav-links">
+      <li><a href="{% url 'salon:home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+      <li><a href="{% url 'salon:services' %}" class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a></li>
+      <li><a href="{% url 'salon:pricing' %}" class="{% if request.resolver_match.url_name == 'pricing' %}active{% endif %}">Pricing</a></li>
+      <li><a href="{% url 'salon:about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About</a></li>
+      <li><a href="{% url 'salon:contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>{{ salon.salon_name|default:"Shar Beauty" }}</h4>
+        <p>{{ salon.tagline|default:"Your Beauty, Our Passion" }}</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{% url 'salon:home' %}">Home</a></li>
+          <li><a href="{% url 'salon:services' %}">Services</a></li>
+          <li><a href="{% url 'salon:pricing' %}">Pricing</a></li>
+          <li><a href="{% url 'salon:about' %}">About Us</a></li>
+          <li><a href="{% url 'salon:contact' %}">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li>{{ salon.address|default:"Your salon address here" }}</li>
+          <li>📞 {{ salon.phone|default:"+91 00000 00000" }}</li>
+          <li>✉️ {{ salon.email|default:"info@yoursalon.com" }}</li>
+          <li>🕒 {{ salon.opening_hours|default:"Mon - Sun: 9:00 AM - 8:00 PM" }}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; {% now "Y" %} {{ salon.salon_name|default:"Shar Beauty" }}. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

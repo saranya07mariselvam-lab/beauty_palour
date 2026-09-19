@@ -1,0 +1,45 @@
+{% extends "salon/base.html" %}
+{% block title %}Contact Us - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+  <h1>Contact Us</h1>
+  <p>We'd love to hear from you. Send an enquiry and we'll get back to you shortly.</p>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    <div class="contact-wrap">
+      <div class="contact-info-box">
+        <h3>Get In Touch</h3>
+        <div class="row"><strong>Address</strong>{{ salon.address|default:"Your salon address here" }}</div>
+        <div class="row"><strong>Phone</strong>{{ salon.phone|default:"+91 00000 00000" }}</div>
+        {% if salon.whatsapp %}<div class="row"><strong>WhatsApp</strong>{{ salon.whatsapp }}</div>{% endif %}
+        <div class="row"><strong>Email</strong>{{ salon.email|default:"info@yoursalon.com" }}</div>
+        <div class="row"><strong>Working Hours</strong>{{ salon.opening_hours }}</div>
+      </div>
+
+      <div class="enquiry-form">
+        <h3>Send an Enquiry</h3>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.name }}
+          {{ form.phone }}
+          {{ form.email }}
+          {{ form.service }}
+          {{ form.message }}
+          <button type="submit" class="btn" style="width:100%;">Submit Enquiry</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

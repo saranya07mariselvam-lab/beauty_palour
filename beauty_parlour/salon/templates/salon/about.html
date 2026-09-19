@@ -1,0 +1,32 @@
+{% extends "salon/base.html" %}
+{% block title %}About Us - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+  <h1>About {{ salon.salon_name|default:"Us" }}</h1>
+  <p>{{ salon.tagline|default:"Our story, our passion for beauty." }}</p>
+</section>
+
+<section class="about-content">
+  <div class="container">
+    {% if salon.about_text %}
+      <p>{{ salon.about_text|linebreaks }}</p>
+    {% else %}
+      <p>
+        Welcome to {{ salon.salon_name|default:"our salon" }}! We are passionate about helping you look
+        and feel your absolute best. With experienced staff, premium products, and a warm,
+        welcoming environment, we offer a full range of facial, manicure, pedicure,
+        nail art and makeup services tailored to your unique needs.
+      </p>
+      <p>
+        Edit this section anytime from the Django Admin panel (Salon Info) to tell your own story -
+        your salon's history, values, and what makes it special.
+      </p>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:40px;">
+      <a href="{% url 'salon:contact' %}" class="btn">Get In Touch</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

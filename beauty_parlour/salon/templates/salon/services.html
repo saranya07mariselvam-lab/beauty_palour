@@ -1,0 +1,45 @@
+{% extends "salon/base.html" %}
+{% block title %}Our Services - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+  <h1>Our Services</h1>
+  <p>Facial, Manicure, Pedicure, Nail Art & Makeup - crafted for you.</p>
+</section>
+
+<section class="section">
+  <div class="container">
+
+    <div class="filter-tabs">
+      <a href="{% url 'salon:services' %}" class="{% if selected_category == 'all' %}active{% endif %}">All</a>
+      {% for key, label in categories %}
+        <a href="?category={{ key }}" class="{% if selected_category == key %}active{% endif %}">{{ label }}</a>
+      {% endfor %}
+    </div>
+
+    {% if services %}
+    <div class="grid">
+      {% for service in services %}
+      <div class="card">
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.name }}">
+        {% else %}
+          <img src="https://via.placeholder.com/400x250?text={{ service.name|urlencode }}" alt="{{ service.name }}">
+        {% endif %}
+        <div class="card-body">
+          <span class="category-badge">{{ service.get_category_display }}</span>
+          <h3>{{ service.name }}</h3>
+          <p>{{ service.description|truncatewords:15 }}</p>
+          <div class="card-price">₹{{ service.price }} &middot; {{ service.duration_minutes }} min</div>
+          <a href="{% url 'salon:service_detail' service.pk %}" class="btn btn-outline">View Details</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center; color:#999;">No services found in this category yet.</p>
+    {% endif %}
+
+  </div>
+</section>
+{% endblock %}

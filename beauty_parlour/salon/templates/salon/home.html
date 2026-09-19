@@ -1,0 +1,87 @@
+{% extends "salon/base.html" %}
+{% load static %}
+{% block title %}{{ salon.salon_name }} - Home{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <span class="subtitle">Welcome to</span>
+  <h1>{{ salon.salon_name|default:"Shar Beauty" }}</h1>
+  <p>{{ salon.tagline|default:"Premium facial, nail care & makeup - tailored to make you look and feel your best." }}</p>
+  <a href="{% url 'salon:contact' %}" class="btn">Book an Appointment</a>
+</section>
+
+
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <span>What We Offer</span>
+      <h2>Our Popular Services</h2>
+    </div>
+
+    {% if featured_services %}
+    <div class="grid">
+      {% for service in featured_services %}
+      <div class="card">
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.name }}">
+        {% else %}
+          <img src="https://via.placeholder.com/400x250?text={{ service.name|urlencode }}" alt="{{ service.name }}">
+        {% endif %}
+        <div class="card-body">
+          <span class="category-badge">{{ service.get_category_display }}</span>
+          <h3>{{ service.name }}</h3>
+          <p>{{ service.description|truncatewords:15 }}</p>
+          <div class="card-price">₹{{ service.price }}</div>
+          <a href="{% url 'salon:service_detail' service.pk %}" class="btn btn-outline">View Details</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center; color:#999;">Services will appear here once added from the admin panel.</p>
+    {% endif %}
+
+    <div style="text-align:center; margin-top:40px;">
+      <a href="{% url 'salon:services' %}" class="btn">View All Services</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:#fff;">
+  <div class="container">
+    <div class="section-title">
+      <span>Testimonials</span>
+      <h2>What Our Clients Say</h2>
+    </div>
+
+    {% if testimonials %}
+    <div class="grid">
+      {% for t in testimonials %}
+      <div class="testimonial-card">
+        {% if t.photo %}
+          <img src="{{ t.photo.url }}" alt="{{ t.customer_name }}">
+        {% else %}
+          <img src="https://via.placeholder.com/70" alt="{{ t.customer_name }}">
+        {% endif %}
+        <div class="stars">{% for i in "12345" %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+        <p>"{{ t.message }}"</p>
+        <h4>{{ t.customer_name }}</h4>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align:center; color:#999;">Customer reviews will appear here once added from the admin panel.</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section" style="background: var(--color-black); color:#fff; text-align:center;">
+  <div class="container">
+    <h2 style="color:#fff;">Ready to look and feel your best?</h2>
+    <p style="margin-bottom:25px; color:#f5e5e9;">Book your appointment today and let our experts take care of the rest.</p>
+    <a href="{% url 'salon:contact' %}" class="btn">Enquire Now</a>
+  </div>
+</section>
+
+{% endblock %}

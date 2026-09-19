@@ -1,0 +1,44 @@
+{% extends "salon/base.html" %}
+{% block title %}{{ service.name }} - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+  <div class="container">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px; align-items:start;">
+      <div>
+        {% if service.image %}
+          <img src="{{ service.image.url }}" alt="{{ service.name }}" style="border-radius:8px;">
+        {% else %}
+          <img src="https://via.placeholder.com/600x400?text={{ service.name|urlencode }}" alt="{{ service.name }}" style="border-radius:8px;">
+        {% endif %}
+      </div>
+      <div>
+        <span class="category-badge">{{ service.get_category_display }}</span>
+        <h1>{{ service.name }}</h1>
+        <p style="color:var(--color-muted); font-size:16px;">{{ service.description }}</p>
+        <div class="card-price" style="font-size:22px; margin:20px 0;">₹{{ service.price }} &middot; approx. {{ service.duration_minutes }} minutes</div>
+        <a href="{% url 'salon:contact' %}" class="btn">Enquire About This Service</a>
+      </div>
+    </div>
+
+    {% if related %}
+    <div class="section-title" style="margin-top:70px;">
+      <span>You May Also Like</span>
+      <h2>Related Services</h2>
+    </div>
+    <div class="grid">
+      {% for s in related %}
+      <div class="card">
+        {% if s.image %}<img src="{{ s.image.url }}" alt="{{ s.name }}">{% else %}<img src="https://via.placeholder.com/400x250?text={{ s.name|urlencode }}" alt="{{ s.name }}">{% endif %}
+        <div class="card-body">
+          <h3>{{ s.name }}</h3>
+          <div class="card-price">₹{{ s.price }}</div>
+          <a href="{% url 'salon:service_detail' s.pk %}" class="btn btn-outline">View Details</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

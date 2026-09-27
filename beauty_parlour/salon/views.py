@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Service, Testimonial, SalonInfo
-from .forms import EnquiryForm
+from .forms import EnquiryForm,FeedbackForm
 
 
 def home(request):
@@ -69,3 +69,15 @@ def contact(request):
     else:
         form = EnquiryForm()
     return render(request, 'salon/contact.html', {'salon': salon, 'form': form})
+
+def feedback(request):
+    salon = SalonInfo.get_solo()
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thank you for your feedback! It will be reviewed and posted shortly.")
+            return redirect('salon:feedback')
+    else:
+        form = FeedbackForm()
+    return render(request, 'salon/feedback.html', {'salon': salon, 'form': form})

@@ -24,7 +24,7 @@ class Service(models.Model):
     duration_minutes = models.PositiveIntegerField(default=30, help_text="Approx. time this service takes")
     image = models.ImageField(upload_to='services/', blank=True, null=True)
     is_featured = models.BooleanField(default=False, help_text="Show on homepage highlights")
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -41,7 +41,7 @@ class Testimonial(models.Model):
     message = models.TextField()
     photo = models.ImageField(upload_to='testimonials/', blank=True, null=True)
     rating = models.PositiveSmallIntegerField(default=5, help_text="Out of 5 stars")
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

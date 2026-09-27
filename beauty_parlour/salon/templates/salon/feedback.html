@@ -1,0 +1,58 @@
+{% extends "salon/base.html" %}
+{% block title %}Share Your Feedback - {{ salon.salon_name }}{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+  <h1>Share Your Feedback</h1>
+  <p>We'd love to know about your experience with us.</p>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:600px;">
+
+    <div id="successMsg" class="alert-success" style="display:none;">Thank you for your feedback!</div>
+
+    <div class="enquiry-form">
+      <form id="feedbackForm" action="https://api.web3forms.com/submit" method="POST">
+       <input type="hidden" name="access_key" value="ea8edaf3-5269-4df3-8d25-bd70b3ec2c89">
+        <input type="hidden" name="subject" value="New Feedback - Sha Beauty">
+
+        <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+
+        <select name="rating" class="form-control" required>
+          <option value="">Select Rating</option>
+          <option value="5 - Excellent">5 - Excellent</option>
+          <option value="4 - Good">4 - Good</option>
+          <option value="3 - Average">3 - Average</option>
+          <option value="2 - Below Average">2 - Below Average</option>
+          <option value="1 - Poor">1 - Poor</option>
+        </select>
+
+        <textarea name="message" class="form-control" placeholder="Share your experience with us..." rows="4" required></textarea>
+
+        <button type="submit" class="btn" style="width:100%;">Submit Feedback</button>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<script>
+document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(() => {
+    form.style.display = 'none';
+    document.getElementById('successMsg').style.display = 'block';
+  }).catch(() => {
+    alert('Something went wrong. Please try again.');
+  });
+});
+</script>
+
+{% endblock %}

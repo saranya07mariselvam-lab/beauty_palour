@@ -1,22 +1,17 @@
 {% extends "salon/base.html" %}
+{% load static %}
 {% block title %}Contact Us - {{ salon.salon_name }}{% endblock %}
 
 {% block content %}
 <section class="about-hero">
   <h1>Contact Us</h1>
-  <p>We'd love to hear from you. Send an enquiry and we'll get back to you shortly.</p>
+  <p>Get in touch with us or scan the QR code to pay.</p>
 </section>
 
 <section class="section">
   <div class="container">
 
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert-success">{{ message }}</div>
-      {% endfor %}
-    {% endif %}
-
-    <div class="contact-wrap">
+    <div class="contact-wrap" style="grid-template-columns: 1fr; max-width:500px; margin:0 auto;">
       <div class="contact-info-box">
         <h3>Get In Touch</h3>
         <div class="row"><strong>Address</strong>{{ salon.address|default:"Your salon address here" }}</div>
@@ -24,22 +19,20 @@
         {% if salon.whatsapp %}<div class="row"><strong>WhatsApp</strong>{{ salon.whatsapp }}</div>{% endif %}
         <div class="row"><strong>Email</strong>{{ salon.email|default:"info@yoursalon.com" }}</div>
         <div class="row"><strong>Working Hours</strong>{{ salon.opening_hours }}</div>
-      </div>
-
-      <div class="enquiry-form">
-        <h3>Send an Enquiry</h3>
-        <form method="post">
-          {% csrf_token %}
-          {{ form.name }}
-          {{ form.phone }}
-          {{ form.email }}
-          {{ form.service }}
-          {{ form.message }}
-          <button type="submit" class="btn" style="width:100%;">Submit Enquiry</button>
-        </form>
+        <div class="row" style="text-align:center;">
+          <strong>Scan & Pay (UPI)</strong>
+          <img src="{% static 'salon/images/upi-qr.jpg' %}" alt="UPI QR Code"
+               style="width:180px; margin-top:10px; border-radius:8px; background:#fff; padding:8px; cursor:pointer;"
+               onclick="document.getElementById('qrModal').style.display='flex'">
+        </div>
       </div>
     </div>
 
   </div>
 </section>
+
+<div id="qrModal" onclick="this.style.display='none'" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:999; align-items:center; justify-content:center; cursor:pointer;">
+  <img src="{% static 'salon/images/upi-qr.jpg' %}" alt="UPI QR Code Large" style="max-width:90%; max-height:90%; border-radius:10px; background:#fff; padding:20px;">
+</div>
+
 {% endblock %}
